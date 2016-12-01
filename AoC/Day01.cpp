@@ -1,5 +1,6 @@
 #include "Day01.h"
 #include <fstream>
+#include <algorithm>
 #include <string>
 Day01::Day01(){
 }
@@ -19,6 +20,7 @@ int Day01::Move() {
 	char direction = 'N';
 	int x = 0;
 	int y = 0;
+	int repeat_location = 0;
 	for (auto iter : raw_data_) {
 		switch (direction) {
 		case 'N':
@@ -62,10 +64,15 @@ int Day01::Move() {
 			}
 			break;
 		default:
-			return 0;
+			break;
 		}
-		std::cout << "Distance: " << iter.substr(1) << std::endl;
-		std::cout << "TOTAL: " << abs(x) + abs(y) << std::endl;
+		if (visited_.find({x, y}) != visited_.end()){
+			std::cout << "(" << x << ", " << y << ") ---> " << abs(x) + abs(y) << std::endl;
+		}
+		else{
+			visited_.insert({x, y});
+			std::cout << "(" << x << ", " << y << ")\n";
+		}
 	}
 	return abs(x) + abs(y);
 }
